@@ -6,7 +6,7 @@
 ## Tugas1. Analisa File http.cap dengan Wireshark
 
 ### 1. Versi HTTP yang Digunakan
-![HTTP Version](./img/HTTP ver.png)
+![HTTP Version](./img/HTTP-ver.png)
 
 - Berdasarkan gambar di atas, versi HTTP yang digunakan adalah **HTTP/1.1**.
 - Untuk mengetahui versi HTTP melalui Wireshark, pilih paket nomor 4, klik kanan dan pilih opsi **Follow** > **HTTP streams**. Versi HTTP dapat dilihat pada bagian client dan server di bagian paling atas.
