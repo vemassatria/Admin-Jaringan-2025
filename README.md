@@ -64,13 +64,20 @@ Pada gambar di atas dapat dijelaskan bahwa:
 Proses *three-way handshake* yang digunakan untuk membangun koneksi antara client dan server:
 
 - **SYN (Synchronization Request)**  
-  Client menginisiasi koneksi dengan mengirimkan paket SYN ke server yang berisi sequence number untuk menandai awal komunikasi.
+  - Client menginisiasi koneksi dengan mengirim SYN (synchronize) ke server.
+  - Client juga menyertakan sequence number awal (misalnya, seq: 8000).
+  - Server dalam keadaan passive open, menunggu permintaan koneksi.
 
 - **SYN-ACK (Synchronization Acknowledgment)**  
-  Server menerima permintaan client dan mengirimkan balasan yang berisi SYN + ACK untuk mengonfirmasi penerimaan paket dari client.
+  - Server menerima permintaan dan membalas dengan SYN-ACK.
+  - Server mengirim sequence number baru (misalnya, seq: 15000) dan mengakui nomor urut yang dikirim client (ack: 8001).
 
 - **ACK (Acknowledgment)**  
-  Client mengirimkan paket ACK terakhir untuk memberi tahu bahwa koneksi berhasil dibuat.
+  - Client mengonfirmasi koneksi dengan mengirim ACK.
+  - Client menyertakan acknowledgment number yang sesuai dengan sequence number server + 1 (misalnya, ack: 15001).
+  - Setelah tahap ini selesai, koneksi TCP telah berhasil dibuat, dan transfer data dapat dimulai.
+
+Three-way handshake memastikan bahwa koneksi antara client dan server andalkan sebelum data ditransmisikan. Proses ini menghindari kehilangan paket dan menjamin komunikasi dua arah yang stabil dalam jaringan.
 
 ### 2. Data Transfer
 ![Data Transfer](./img/transfer-data.png)
