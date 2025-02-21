@@ -3,7 +3,7 @@
 **Nama** : Vemas Satria Edy Pratama
 **Kelas** :2 D4 IT A / 3123600020 
 
-## A. Analisa File http.cap dengan Wireshark
+## Tugas1. Analisa File http.cap dengan Wireshark
 
 ### 1. Versi HTTP yang Digunakan
 ![HTTP Version](./img/HTTP-Version.png)
@@ -28,7 +28,7 @@
 
 - Dengan demikian, selisih waktu server mengirimkan ke client adalah **3.044378**.
 
-## B. Deskripsi Gambar pada Slide
+## Tugas2. Deskripsi Gambar pada Slide
 ![Type of Data Deliveries](./img/nomer2.png)
 
 Pada gambar di atas dapat dijelaskan bahwa:
@@ -56,7 +56,7 @@ Pada gambar di atas dapat dijelaskan bahwa:
       - TCP menyediakan komunikasi andal dengan mekanisme three-way handshake dan pengontrolan kesalahan.<br/>
       - UDP memungkinkan pengiriman data yang cepat tanpa harus menunggu konfirmasi penerimaan.
 
-## C. Rangkuman Tahapan Komunikasi Menggunakan TCP
+## Tugas3. Rangkuman Tahapan Komunikasi Menggunakan TCP
 
 ### 1. Connection Establishment Using Three-Way Handshaking
 ![Three-Way Handshake](./img/connection-establishment-using-three-way-handshaking.png)
