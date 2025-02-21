@@ -50,11 +50,11 @@ Pada gambar di atas dapat dijelaskan bahwa:
   Proses ini melibatkan router yang meneruskan paket data dari satu jaringan ke jaringan lainnya. Setiap kali paket data berpindah dari satu router ke router lainnya, disebut sebagai Node to Node Communication.
 
 3. **Process to Process (Transport Layer)**
-   Setelah data mencapai perangkat tujuan, komunikasi harus diteruskan ke proses atau aplikasi yang sesuai. Lapisan Transport (Transport Layer) bertanggung jawab untuk memastikan data diterima oleh aplikasi yang benar.
-   Fungsi utama:
-      -Menggunakan protokol seperti TCP (Transmission Control Protocol) dan UDP (User Datagram Protocol.
-      -TCP menyediakan komunikasi andal dengan mekanisme three-way handshake dan pengontrolan kesalahan.
-      -UDP memungkinkan pengiriman data yang cepat tanpa harus menunggu konfirmasi penerimaan.
+   Setelah data mencapai perangkat tujuan, komunikasi harus diteruskan ke proses atau aplikasi yang sesuai. Lapisan Transport (Transport Layer) bertanggung jawab untuk memastikan data diterima oleh aplikasi yang benar.<br/>
+   Fungsi utama:<br/>
+      -Menggunakan protokol seperti TCP (Transmission Control Protocol) dan UDP (User Datagram Protocol.<br/>
+      -TCP menyediakan komunikasi andal dengan mekanisme three-way handshake dan pengontrolan kesalahan.<br/>
+      -UDP memungkinkan pengiriman data yang cepat tanpa harus menunggu konfirmasi penerimaan.<br/>
 
 ## C. Rangkuman Tahapan Komunikasi Menggunakan TCP
 
