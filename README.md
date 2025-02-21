@@ -5,28 +5,28 @@
 
 ## Tugas1. Analisa File http.cap dengan Wireshark
 
-### 1. Versi HTTP yang Digunakan
+### 1. Versi HTTP
 ![HTTP Version](./img/HTTP-ver.png)
 
 - Berdasarkan gambar di atas, versi HTTP yang digunakan adalah **HTTP/1.1**.
-- Untuk mengetahui versi HTTP melalui Wireshark, pilih paket nomor 4, klik kanan dan pilih opsi **Follow** > **HTTP streams**. Versi HTTP dapat dilihat pada bagian client dan server di bagian paling atas.
+- Untuk mengetahui versi HTTP melalui Wireshark, pilih paket nomor 4, klik kanan dan pilih opsi **Follow** kemudian **HTTP streams**. Versi HTTP dapat dilihat pada bagian client dan server di bagian paling atas.
 
-### 2. IP Address dari Client maupun Server
+### 2. IP Address Client dan Server
 ![IP Address](./img/IP-Address.png)
 - Berdasarkan gambar di atas, dapat diketahui bahwa *IP Address* dari client dan server adalah **145.254.160.237.** dan **65.208.228.223**. Untuk mengetahui **IP Address** dari client dan server dapat dilihat pada bagian **Source** dan **Destination**.
 
-### 3. waktu dari client mengirimkan HTTP request
+### 3. Waktu client mengirim HTTP request
 ![Time HTTP Request](./img/Time-Request.png)
 - Pada gambar di atas, untuk mengetahui waktu dari client mengirimkan HTTP request dapat dilihat pada **packet nomor 4** dengan waktu **0.911310**.
 
-### 4. Waktu dari server mengirinmkan server dan berapa durasinya
+### 4. Waktu server mengirim dan durasi
 ![Server to Client Time](./img/Server-to-Client.png)
 - Pada gambar di atas, dapat diketahui waktu server mengirimkan ke client adalah **3.955688** dengan melihat **packet nomor 27**, sehingga dapat diketahui waktu selisih server mengirimkan data client.
 
 - Selisih waktu :
-  `Selisih waktu = 3.955688 - 0.911310 = 3.044378`
+  `-> 3.955688 - 0.911310 = 3.044378`
 
-- Dengan demikian, selisih waktu server mengirimkan ke client adalah **3.044378**.
+- Jadi, selisih waktu server mengirimkan ke client adalah **3.044378**.
 
 ## Tugas2. Deskripsi Gambar pada Slide
 ![Type of Data Deliveries](./img/nomer2.png)
