@@ -34,13 +34,27 @@
 Pada gambar di atas dapat dijelaskan bahwa:
 
 1. **Node to Node (Data Link Layer)**
-   - Pengiriman data terjadi antara dua perangkat fisik yang saling terhubung, seperti komputer atau switch, dalam jaringan lokal.
+  Pada tahap ini, komunikasi data terjadi antara dua perangkat fisik yang terhubung langsung dalam jaringan lokal (LAN). Data ditransmisikan dari satu node ke node lainnya melalui kabel atau koneksi nirkabel. Protokol yang bekerja pada lapisan ini meliputi Ethernet dan Wi-Fi.
+   -Fungsi utama:
+      -Mengatur bagaimana data dikirim dalam satu jaringan fisik.
+      -Menggunakan alamat MAC untuk mengidentifikasi perangkat.
+      -Menyediakan deteksi dan koreksi kesalahan pada transmisi data
 
 2. **Host to Host (Network Layer)**
-   - Pengiriman data antara dua perangkat di luar jaringan lokal, seperti internet, dengan menggunakan pengalamatan dan routing data.
+  Ketika data perlu dikirim melampaui jaringan lokal, proses komunikasi antar host terjadi pada Network Layer. Protokol IP (Internet Protocol) digunakan untuk mengidentifikasi setiap perangkat yang terhubung dalam jaringan global.
+   -Fungsi utama:
+      -Menyediakan mekanisme routing agar paket data dapat mencapai tujuan akhir
+      -Menggunakan alamat IP sebagai identitas unik setiap perangkat.
+      -Menerapkan fragmentasi paket jika data terlalu besar untuk satu transmisi.
+  
+  Proses ini melibatkan router yang meneruskan paket data dari satu jaringan ke jaringan lainnya. Setiap kali paket data berpindah dari satu router ke router lainnya, disebut sebagai Node to Node Communication.
 
 3. **Process to Process (Transport Layer)**
-   - Pengiriman data antara aplikasi yang berjalan di dua sistem yang berbeda. Protokol transport seperti TCP dan UDP mengatur jalur komunikasi data antara dua proses di dua host berbeda.
+   Setelah data mencapai perangkat tujuan, komunikasi harus diteruskan ke proses atau aplikasi yang sesuai. Lapisan Transport (Transport Layer) bertanggung jawab untuk memastikan data diterima oleh aplikasi yang benar.
+   Fungsi utama:
+      -Menggunakan protokol seperti TCP (Transmission Control Protocol) dan UDP (User Datagram Protocol.
+      -TCP menyediakan komunikasi andal dengan mekanisme three-way handshake dan pengontrolan kesalahan.
+      -UDP memungkinkan pengiriman data yang cepat tanpa harus menunggu konfirmasi penerimaan.
 
 ## C. Rangkuman Tahapan Komunikasi Menggunakan TCP
 
