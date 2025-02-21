@@ -73,7 +73,7 @@ Proses *three-way handshake* yang digunakan untuk membangun koneksi antara clien
   Client mengirimkan paket ACK terakhir untuk memberi tahu bahwa koneksi berhasil dibuat.
 
 ### 2. Data Transfer
-![Data Transfer](./img/Data-Transfer.png)
+![Data Transfer](./img/transfer-data.png)
 
 Proses transfer data setelah koneksi berhasil dibangun:
 
