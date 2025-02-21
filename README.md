@@ -29,7 +29,7 @@
 - Dengan demikian, selisih waktu server mengirimkan ke client adalah **3.044378**.
 
 ## B. Deskripsi Gambar pada Slide
-![Type of Data Deliveries](./img/Type-of-Data-Deliveries.png)
+![Type of Data Deliveries](./img/nomer2.png)
 
 Pada gambar di atas dapat dijelaskan bahwa:
 
