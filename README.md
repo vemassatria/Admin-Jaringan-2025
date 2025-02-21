@@ -84,17 +84,24 @@ Three-way handshake memastikan bahwa koneksi antara client dan server andalkan s
 
 Proses transfer data setelah koneksi berhasil dibangun:
 
-- **Pengiriman Data dari Client ke Server**  
-  Client mengirimkan segmen pertama dengan sequence number dan acknowledgment number, data yang dikirimkan mencakup byte tertentu dengan flag PUSH (P) dan ACK (A).
+- **Pengiriman Data Pertama**
+  - Client mengirimkan data dengan sequence number 8001 dan acknowledgment 15001.
+  - Data yang dikirim mencakup bytes 8001–9000.
+  - A (ACK) dan P (PSH - Push flag) digunakan untuk memastikan data segera diproses oleh aplikasi di sisi penerima.
 
-- **Pengiriman Data Lanjutan**  
-  Client mengirimkan segmen kedua dengan sequence dan acknowledgment number yang relevan.
+- **Pengiriman Data Kedua**
+  - Client melanjutkan dengan mengirim sequence number 9001 dan acknowledgment tetap 15001.
+  - Data yang dikirim mencakup bytes 9001–10000.
+  - Server belum mengirim ACK tambahan karena data masih dalam proses.
 
-- **Balasan dari Server**  
-  Server mengirimkan data dengan sequence dan acknowledgment number sesuai dengan urutan data yang diterima.
+- **Pengiriman Data oleh Server**
+  - Server merespons dengan mengirim data balik menggunakan sequence number 15001 dan acknowledgment 10001.
+  - Data yang dikirim mencakup bytes 15001–17000.
+  - ACK dikirim bersamaan dengan data untuk efisiensi.
 
-- **Acknowledgment dari Client**  
-  Client mengirimkan ACK untuk memberi tahu bahwa data telah diterima dengan baik.
+- **ACK Terakhir dari Client**
+  - Client mengirimkan acknowledgment 17001 untuk memberi tahu server bahwa data hingga byte 17000 telah diterima.
+  - Dikirim bersama dengan informasi receive window (rwnd: 10000) yang menunjukkan jumlah data yang bisa diterima client selanjutnya.
 
 ### 3. Connection Termination Using Three-Way Handshaking
 ![Connection Termination](./img/Connection-termination-using-three-way-handshaking.png)
