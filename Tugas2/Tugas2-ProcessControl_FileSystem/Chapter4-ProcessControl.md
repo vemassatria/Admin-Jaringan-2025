@@ -195,7 +195,4 @@ Memantau proses menggunakan `ps aux`. Proses yang baru saya jalankan adalah pros
 
 Namun, ketika saya mencoba mengubah nilai niceness menggunakan `renice`, saya mendapatkan pesan error `Permission denied`. Mungkin hal ini terjadi karena menggunakan docker. Meskipun login sebagai root, Docker menggunakan namespace isolation dan cgroups yang membatasi akses penuh ke sistem, mungkin termasuk kemampuan untuk mengubah Niceness proses. Oleh karena itu, saya mencoba melakukan renice di terminal sistem operasi yang saya gunakan yaitu Linux mint.
 
-![Nice Linux Mint](./image/nice_mint.png)
-![Renice Linux Mint](./image/renice_mint.png)
-
 Pada proses dengan PID `142426` awalnya memiliki nilai niceness `10` dan memiliki nilai prioritas `30`. Ketika melakukan `renice` dengan mengubah nilai niceness menjadi `5` nilai prioritasnya juga berubah menjadi `25`. Nilai prioritas akan naik sebanyak turunnya nilai niceness.
