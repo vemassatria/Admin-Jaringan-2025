@@ -1,12 +1,12 @@
----
-title: "Konfigurasi DNS untuk Jaringan Internal"
----
+<h1 align="center">
+  "Konfigurasi DNS untuk Jaringan Internal"
+</h1>
 
 # Konfigurasi DNS untuk Jaringan Internal
 
 ## 1. Mengecek Status BIND
 
-![bindstatus](/Tugas_DNS/img/bindstatus.png)
+![bindstatus](./img/bindstatus.png)
 
 ```sh
 systemctl status bind9
@@ -23,7 +23,7 @@ Jika ada perubahan dalam konfigurasi DNS, layanan BIND perlu di-restart agar per
 
 ## 3. Mengonfigurasi Zona DNS dalam `named.conf.local`
 
-![namedconflocal](/Tugas_DNS/img/namedconflocal.png)
+![namedconflocal](./img/namedconflocal.png)
 
 ```sh
 nano /etc/bind/named.conf.local
@@ -47,7 +47,7 @@ Konfigurasi ini mendeklarasikan zona forward lookup dan reverse lookup untuk jar
 
 ## 4. Membuat File Forward Zone
 
-![dbexample](/Tugas_DNS/img/dbexample.png)
+![dbexample](./img/dbexample.png)
 
 ```sh
 nano /etc/bind/db.example.com
@@ -73,7 +73,7 @@ File ini mendefinisikan alamat IP untuk `ns1` dan `www` dalam jaringan internal.
 
 ## 5. Membuat File Reverse Zone
 
-![db192](/Tugas_DNS/img/dbrev.png)
+![db192](./img/dbrev.png)
 
 ```sh
 nano /etc/bind/db.192
@@ -99,7 +99,7 @@ File ini memungkinkan resolusi alamat IP ke nama domain dalam reverse DNS lookup
 
 ## 6. Mengecek Konfigurasi
 
-![testconf](/Tugas_DNS/img/testconf.png)
+![testconf](./img/testconf.png)
 
 ```sh
 sudo named-checkconf
@@ -112,7 +112,7 @@ Perintah ini digunakan untuk memeriksa apakah konfigurasi BIND telah benar sebel
 
 ## 7. Menguji Query Forward
 
-![testforward](/Tugas_DNS/img/test.png)
+![testforward](./img/test.png)
 
 ```sh
 dig example.com @192.168.100.57
@@ -123,7 +123,7 @@ Perintah ini memverifikasi apakah DNS dapat mengonversi domain `example.com` ke 
 
 ## 8. Menguji Query Reverse
 
-![testreversed](/Tugas_DNS/img/testrev.png)
+![testreversed](./img/testrev.png)
 
 ```sh
 dig -x 192.168.100.57 @192.168.100.57
