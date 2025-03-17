@@ -1,6 +1,6 @@
----
-title: "Konfigurasi DNS untuk Jaringan Internal"
----
+<h1 align="center">
+  "Konfigurasi DNS untuk Jaringan Internal"
+</h1>
 
 # Konfigurasi DNS untuk Jaringan Internal
 
