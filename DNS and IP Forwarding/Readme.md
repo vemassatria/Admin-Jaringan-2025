@@ -4,7 +4,7 @@
 
 ![img](img/topology.png)
 
-Pada topologi di atas, VM 1 bertugas sebagai gateway yang akan menghuubungkan VM 2 ke internet dengan ip forwarding, selain itu pada VM 1 juga akan dikonfigurasi sebagai DNS server untuk nameserver `www.kelompok2.com.`
+Pada topologi di atas, VM 1 bertugas sebagai gateway yang akan menghuubungkan VM 2 ke internet dengan ip forwarding, selain itu pada VM 1 juga akan dikonfigurasi sebagai DNS server untuk nameserver `www.kelompok9.com.`
 
 Dan untuk VM 2 akan berperan sebagai client jaringan di atas
 
