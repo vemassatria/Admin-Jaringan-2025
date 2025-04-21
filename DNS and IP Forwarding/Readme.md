@@ -1,12 +1,10 @@
 # DNS and IP Forwarding
+IP VM 1 = 192.168.200.1/24
+IP VM 2 = 192.168.200.2/24
 
-## Topology
+disini skenarionya yaitu VM 1 bertugas sebagai gateway yang akan menghuubungkan VM 2 ke internet dengan ip forwarding, selain itu pada VM 1 juga akan dikonfigurasi sebagai DNS server untuk nameserver `www.kelompok99.com.`
 
-![img](img/topology.png)
-
-Pada topologi di atas, VM 1 bertugas sebagai gateway yang akan menghuubungkan VM 2 ke internet dengan ip forwarding, selain itu pada VM 1 juga akan dikonfigurasi sebagai DNS server untuk nameserver `www.kelompok9.com.`
-
-Dan untuk VM 2 akan berperan sebagai client jaringan di atas
+Dan untuk VM 2 akan berperan sebagai client jaringan
 
 ## VM 1 Configurations
 
@@ -18,7 +16,7 @@ Pertama, install `bind9` untuk DNS server, dan `iptables` untuk Routing tables d
 sudo apt install bind9 bind9utils
 ```
 
-![img](img/1.png)
+![img](img/ins_bind9.png)
 
 disini `bind9utils` nantinya akan digunakan untuk mengecek hasil konfigurasi zones
 
@@ -26,7 +24,7 @@ disini `bind9utils` nantinya akan digunakan untuk mengecek hasil konfigurasi zon
 sudo apt install iptables iptables-persistent
 ```
 
-![img](img/2.png)
+![img](img/ins_iptab.png)
 
 untuk `iptables-persistent` diinstall agar rules yang dibuat dapat tersimpan meski VM dimatikan, sehingga tidak perlu mengonfigurasi ulang nantinya
 
@@ -38,7 +36,7 @@ untuk mengonfigurasi ip address pada VM 1, kita bisa mengedit file `/etc/network
 sudo nano /etc/network/interfaces
 ```
 
-![img](img/3.png)
+![img](img/setip.png)
 
 Disini `enp0s3` adalah network interface primary yang kita hubungkan ke bridge adapter / internet, sedangakn untuk `enp0s8` adalah interface secondary yang terhubung ke internal network yang nantinya akan dihubungkan ke VM 2
 
@@ -61,7 +59,7 @@ Pertama, masuk ke direktori `/etc/bind` kemudian kita akan mengonfigurasi bebera
 sudo nano named.conf
 ```
 
-![img](img/4.png)
+![img](img/named.conf.png)
 
 tambahkan line `include "/etc/bind/named.conf.external-zones"` untuk menambahkan zones yang nantinya akan kita buat
 
@@ -71,9 +69,9 @@ Kemudian konfigurasi file `named.conf.options`
 sudo nano named.conf.options
 ```
 
-![img](img/5.png)
+![img](img/options.png)
 
-Tambahkan beberapa line berikut
+di file tsb sudah ditambahkan beberapa line berikut
 
 ```bash
 allow-query { any; };
@@ -87,26 +85,26 @@ Selanjutnya adalah file `named.conf.external-zones`
 sudo nano named.conf.external-zones
 ```
 
-![img](img/6.png)
+![img](img/ex.png)
 
-disini kita akan membuat zones untuk DNS kita, kita membuat 2 zones dimana satu untuk nameserver yaitu `kelompok2.com` dan satu lagi untuk IP nya `1.200.168.192.in-addr.arpa`
+disini kita akan membuat zones untuk DNS kita, kita membuat 2 zones dimana satu untuk nameserver yaitu `kelompok99.com` dan satu lagi untuk IP nya `200.168.192.in-addr.arpa`
 pada line `file` berikan lokasi file untuk konfigurasi zone nantinya
 
-Untuk konfigurasi zones, pertama saya akan mengonfigurasi file `kelompok2.com`
+Untuk konfigurasi zones, pertama saya akan mengonfigurasi file `kelompok99.com`
 
 ```bash
-sudo nano kelompok2.com
+sudo nano kelompok99.com
 ```
 
-![img](img/7.png)
+![img](img/kelompok99.png)
 
-selanjutnya file `1.200.168.192.db`
+selanjutnya file `200.168.192.db`
 
 ```bash
-sudo nano 1.200.168.192.db
+sudo nano 200.168.192.db
 ```
 
-![img](img/8.png)
+![img](img/.db.png)
 
 setelah membuat konfigurasi untuk kedua zones tersebut, kita dapat mengecek apakah ada kesalahan dalam konfigurasi menggunakan perintah `named-checkzone` dari `bind9utils`
 
@@ -114,7 +112,7 @@ setelah membuat konfigurasi untuk kedua zones tersebut, kita dapat mengecek apak
 named-checkzone [nama_zone] [file_konfigurasi_zone]
 ```
 
-![img](img/9.png)
+![img](img/checkzone.png)
 
 dan diatas sudah memampilkan `OK` untuk kedua zone yang berarti tidak ada masalah yang ditemukan
 
@@ -153,24 +151,22 @@ sudo iptables -A FORWARD -i enp0s3 -o enp0s8 -j ACCEPT
 ```
 
 Perintah ini akan menambahkan rules untuk meneruskan ip dari interface `enp0s8` ke `enp0s3` dan sebaliknya agar nantinya VM 2 bisa terhubung ke Internet
-
-![img](img/iptables.png)
-
-setelah menambahkan tabel NAT dan rules di atas, untuk menyimpan konfigurasi tersebut, jalankan perintah berikut:
+kemudian
+setelah menambahkan tabel NAT dan rules , untuk menyimpan konfigurasi tersebut, jalankan perintah berikut:
 
 ```bash
 sudo iptables-save
 ```
 
-![img](img/iptables-save.png)
+![img](img/iptables.png)
 
 ## VM 2 Configurations
 
 Selanjutnya kita akan mengonfigurasi untuk VM 2 sebagai Client
 
-KIta hanya perlu mengonfigurasi IP Static dari VM 2, dengan masuk Ke Wired Settings dan masuk Ke Tab IPv4 dan isikan address yang berada pada satu network dengan IP Address pada interface `enp0s8` pada VM 1 sebelumnya, yaitu `192.168.200.x` sebagai berikut:
+KIta hanya perlu mengonfigurasi IP Static dari VM 2, dengan masuk Ke Wired Settings dan masuk Ke Tab IPv4 dan isikan address yang berada pada satu network dengan IP Address pada interface `enp0s8` pada VM 1 sebelumnya, yaitu `192.168.200.1` sebagai berikut:
 
-![img](img/10.png)
+![img](img/wired.png)
 
 Masukkan juga IP Address 192.168.200.1 pada DNS agar kita dapat terhubung dengan DNS pada VM 1
 
@@ -180,7 +176,7 @@ Untuk mengonfigurasi IP pada VM 2 juga bisa dilakukan melalui CLI seperti pada V
 
 Disini akan dicoba untuk melakukan ping ke IP addresss dari VM 1 untuk mengecek koneksi antara VM 2 dan VM 1
 
-![img](img/11.png)
+![img](img/pingvm1.png)
 
 dan disini sudah ditampilkan bahwa VM 1 dan VM 2 sudah bisa saling berkomunikasi
 
@@ -188,7 +184,7 @@ dan disini sudah ditampilkan bahwa VM 1 dan VM 2 sudah bisa saling berkomunikasi
 
 Disini saya mencoba untuk membuka halaman web untuk mengecek apakah VM 2 sudah bisa terhubung dengan internet
 
-![img](img/12.png)
+![img](img/IG.png)
 
 dan saya sudah bisa mengakses internet pada VM 1
 
@@ -196,8 +192,8 @@ dan saya sudah bisa mengakses internet pada VM 1
 
 Disini saya mencoba DNS yang sudah dikonfigurasi pada VM 1 sebelumnya pada VM 2 dengan menggunakan `dig` / `nslookup`
 
-![img](img/13.png)
-![img](img/14.png)
-![img](img/15.png)
+![img](img/digkel99.png)
+![img](img/digIP.png)
+![img](img/nslookup.png)
 
 dan dapat kita lihat bahwa pada output `dig` sudah menampilkan ANSWER SECTION dan pada output `nslookup` juga sudah menampilkan nameserver dan ip addressnya
