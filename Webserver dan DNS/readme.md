@@ -21,7 +21,7 @@ Dikerjakan Oleh : <br>
 < KELOMPOK 8 ><br>
 Rifki Alaudin&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;[3123600007]<br>
 Nanda Ahmad Zidan&emsp;&emsp;&emsp;[3123600013]<br>
-Vemas Satria Edi Pratama&emsp;[3123600020]<br>
+Vemas Satria Edy Pratama&emsp;[3123600020]<br>
 </p>
 
 <p align="center">
