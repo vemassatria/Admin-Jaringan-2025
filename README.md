@@ -15,16 +15,16 @@ Dr. Ferry Astika Saputra ST, M.Sc
 
 ---
 
-## Daftar Tugas
+//## Daftar Tugas
 
-Daftar tugas:
+//Daftar tugas:
 
-1. **Tugas 1: Review**
-   - **Link:** [Tugas 1: Review](./Tugas1/README.md)
-2. **Tugas 2:**
-   - **Link:** [Tugas 2](./Tugas2/Tugas2-ProcessControl_FileSystem/Readme.md)
-4. **Tugas 4:**
-   - **Link:** [Tugas 4:DNS](./Tugas4/Readme.md)
----
+//1. **Tugas 1: Review**
+//   - **Link:** [Tugas 1: Review](./Tugas1/README.md)
+//2. **Tugas 2:**
+//   - **Link:** [Tugas 2](./Tugas2/Tugas2-ProcessControl_FileSystem/Readme.md)
+//4. **Tugas 4:**
+//   - **Link:** [Tugas 4:DNS](./Tugas4/Readme.md)
+//---
 
 
