@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor Sistem Manajemen Classic Models</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices: 
+        - Report Info: System Architecture -> Goal: Visualize relationships -> Viz/Method: Interactive Diagram (HTML/Tailwind CSS) -> Interaction: Click on components (Frontend, Backend, DB) to reveal detail panels -> Justification: More engaging and intuitive than static text descriptions.
+        - Report Info: Docker Configuration -> Goal: Organize code snippets -> Viz/Method: Tabbed Interface (HTML/JS) -> Interaction: Click tabs for different Dockerfiles and Compose file -> Justification: Prevents a long wall of code and provides clear context for each snippet.
+        - Report Info: Business Goals -> Goal: Inform high-level objectives -> Viz/Method: Styled Cards (HTML/Tailwind CSS) -> Interaction: Static -> Justification: Quickly digestible summary.
+        - Source Data (ClassicModels SQL): Order Trends -> Goal: Show change over time -> Viz/Method: Line Chart (Chart.js) -> Interaction: Static, hover for details -> Justification: Best for time-series data.
+        - Source Data (ClassicModels SQL): Sales by Product Line -> Goal: Compare proportions -> Viz/Method: Donut Chart (Chart.js) -> Interaction: Dropdown filter to change year -> Justification: Shows composition and adds a key interactive element for exploration.
+        - Source Data (ClassicModels SQL): Employees by Job Title -> Goal: Compare categories -> Viz/Method: Bar Chart (Chart.js) -> Interaction: Static, hover for details -> Justification: Clear comparison of categorical data.
+    -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 900px; height: 350px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) { .chart-container { height: 300px; } }
+        .section-hidden { display: none; }
+        .nav-link.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+        .tab.active { border-color: #4f46e5; color: #4f46e5; background-color: #eef2ff; }
+        .detail-panel { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <h1 class="text-xl font-bold text-indigo-600">Dasbor Proyek Classic Models</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="nav-link text-slate-600 hover:text-indigo-600 font-medium border-b-2 border-transparent pb-1 transition-colors">Gambaran Umum</a>
+                    <a href="#architecture" class="nav-link text-slate-600 hover:text-indigo-600 font-medium border-b-2 border-transparent pb-1 transition-colors">Arsitektur</a>
+                    <a href="#implementation" class="nav-link text-slate-600 hover:text-indigo-600 font-medium border-b-2 border-transparent pb-1 transition-colors">Implementasi</a>
+                    <a href="#visualization" class="nav-link text-slate-600 hover:text-indigo-600 font-medium border-b-2 border-transparent pb-1 transition-colors">Visualisasi Data</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-600 hover:text-indigo-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <a href="#overview" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50">Gambaran Umum</a>
+            <a href="#architecture" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50">Arsitektur</a>
+            <a href="#implementation" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50">Implementasi</a>
+            <a href="#visualization" class="block py-2 px-4 text-sm text-slate-600 hover:bg-indigo-50">Visualisasi Data</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <section id="overview" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-2 text-slate-900">Gambaran Umum Proyek</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">Proyek ini adalah evolusi dari pengelolaan basis data sederhana menjadi aplikasi web *full-stack*. Tujuannya adalah membangun Sistem Manajemen "Classic Models" yang mudah diakses dan dikelola, dengan memanfaatkan teknologi modern untuk memastikan portabilitas dan kemudahan *deployment*.</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-indigo-700 mb-2">Manajemen Data Terpusat</h3>
+                    <p class="text-slate-600">Menyediakan antarmuka intuitif untuk mengelola data master seperti pelanggan, produk, pesanan, dan karyawan melalui operasi CRUD yang lengkap.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-indigo-700 mb-2">Peningkatan Efisiensi</h3>
+                    <p class="text-slate-600">Meningkatkan efisiensi operasional dengan menyediakan sistem yang terpusat, mengurangi duplikasi data, dan mempercepat akses informasi.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-slate-200 md:col-span-2 lg:col-span-1">
+                    <h3 class="font-bold text-lg text-indigo-700 mb-2">Visualisasi & Pelaporan</h3>
+                    <p class="text-slate-600">Memfasilitasi pengambilan keputusan melalui visualisasi data penjualan dan operasional yang interaktif dan mudah dipahami.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-2 text-slate-900">Arsitektur Sistem Interaktif</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">Klik pada setiap komponen di bawah untuk melihat detail arsitektur aplikasi dan infrastruktur yang digunakan. Diagram ini menunjukkan bagaimana setiap layanan berkomunikasi satu sama lain.</p>
+            
+            <div class="lg:flex lg:space-x-8">
+                <div class="w-full lg:w-2/3 mb-8 lg:mb-0">
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 h-full flex flex-col items-center justify-center space-y-4">
+                        <div id="diagram-frontend" data-target="detail-frontend" class="cursor-pointer group w-full max-w-md bg-slate-50 p-4 rounded-lg border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all text-center">
+                            <h4 class="font-bold text-lg">Frontend (React SPA)</h4>
+                            <p class="text-sm text-slate-500">Antarmuka Pengguna</p>
+                        </div>
+                        
+                        <div class="text-slate-400 text-2xl font-mono">&#8595; <span class="text-sm">API Call (HTTP/JSON)</span> &#8593;</div>
+                        
+                        <div id="diagram-backend" data-target="detail-backend" class="cursor-pointer group w-full max-w-md bg-slate-50 p-4 rounded-lg border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all text-center">
+                            <h4 class="font-bold text-lg">Backend (Node.js & Express)</h4>
+                            <p class="text-sm text-slate-500">Logika Bisnis & API</p>
+                        </div>
+
+                        <div class="text-slate-400 text-2xl font-mono">&#8595; <span class="text-sm">SQL Query (Sequelize)</span> &#8593;</div>
+
+                        <div id="diagram-database" data-target="detail-database" class="cursor-pointer group w-full max-w-md bg-slate-50 p-4 rounded-lg border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all text-center">
+                            <h4 class="font-bold text-lg">Database (MySQL on Docker)</h4>
+                            <p class="text-sm text-slate-500">Penyimpanan Data Persisten</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/3">
+                    <div id="detail-placeholder" class="bg-white p-6 rounded-lg border border-slate-200 text-center text-slate-500">
+                        <p>Pilih komponen di sebelah kiri untuk melihat detailnya.</p>
+                    </div>
+
+                    <div id="detail-frontend" class="detail-panel section-hidden bg-white p-6 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-xl mb-3 text-indigo-700">Arsitektur Frontend</h3>
+                        <p class="text-sm text-slate-600 mb-4">Dibangun sebagai *Single Page Application* (SPA) untuk memberikan pengalaman pengguna yang cepat dan mulus.</p>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Teknologi:</span><span class="text-slate-700">React 18, Material-UI, Axios, React Router</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Fitur Utama:</span><span class="text-slate-700">Navigasi sisi klien, komponen UI reaktif, interaksi API, manajemen state sederhana.</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Deployment:</span><span class="text-slate-700">Di-*build* menjadi *file* statis dan disajikan oleh Nginx di dalam *container* Docker.</span></li>
+                        </ul>
+                    </div>
+
+                    <div id="detail-backend" class="detail-panel section-hidden bg-white p-6 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-xl mb-3 text-indigo-700">Arsitektur Backend</h3>
+                        <p class="text-sm text-slate-600 mb-4">Menyediakan RESTful API sebagai jembatan antara *frontend* dan *database*, serta menangani semua logika bisnis.</p>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Teknologi:</span><span class="text-slate-700">Node.js, Express.js, Sequelize (ORM), MySQL2, CORS.</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Fitur Utama:</span><span class="text-slate-700">*Endpoints* API untuk CRUD, pemetaan objek-relasional (ORM), penanganan permintaan HTTP.</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Deployment:</span><span class="text-slate-700">Dijalankan oleh Node.js di dalam *container* Docker yang terisolasi.</span></li>
+                        </ul>
+                    </div>
+
+                    <div id="detail-database" class="detail-panel section-hidden bg-white p-6 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-xl mb-3 text-indigo-700">Arsitektur Database</h3>
+                        <p class="text-sm text-slate-600 mb-4">Penyimpanan data relasional yang persisten, dikelola sepenuhnya dalam lingkungan Docker.</p>
+                        <ul class="space-y-2 text-sm">
+                           <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Teknologi:</span><span class="text-slate-700">MySQL 8.0</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Fitur Utama:</span><span class="text-slate-700">Inisialisasi data otomatis melalui skrip SQL, persistensi data menggunakan Docker Volumes.</span></li>
+                            <li class="flex items-start"><span class="font-semibold text-indigo-600 w-24">Deployment:</span><span class="text-slate-700">Dijalankan sebagai *service* terpisah dalam Docker Compose, memastikan isolasi dan portabilitas.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="implementation" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-2 text-slate-900">Detail Implementasi Docker</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">Seluruh sistem diorkestrasi menggunakan Docker. Berikut adalah konfigurasi utama yang digunakan untuk membangun dan menjalankan setiap layanan.</p>
+            
+            <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200">
+                    <button data-target="tab-compose" class="tab p-3 font-medium text-sm border-b-2 text-slate-500 border-transparent hover:bg-slate-50">docker-compose.yml</button>
+                    <button data-target="tab-frontend" class="tab p-3 font-medium text-sm border-b-2 text-slate-500 border-transparent hover:bg-slate-50">Frontend Dockerfile</button>
+                    <button data-target="tab-backend" class="tab p-3 font-medium text-sm border-b-2 text-slate-500 border-transparent hover:bg-slate-50">Backend Dockerfile</button>
+                </div>
+                <div class="p-2 bg-slate-800 text-white font-mono text-xs overflow-x-auto">
+                    <pre id="tab-compose" class="code-panel leading-relaxed p-4"></pre>
+                    <pre id="tab-frontend" class="code-panel section-hidden leading-relaxed p-4"></pre>
+                    <pre id="tab-backend" class="code-panel section-hidden leading-relaxed p-4"></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualization" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-2 text-slate-900">Visualisasi Data Penjualan</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">Dasbor ini menyajikan data penjualan yang disimulasikan dari *database* Classic Models untuk memberikan gambaran kinerja bisnis. Data ini di-*hardcode* untuk tujuan demonstrasi.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-3 bg-white p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-semibold mb-4">Total Pesanan per Tahun</h3>
+                    <div class="chart-container">
+                        <canvas id="ordersChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold">Penjualan per Lini Produk</h3>
+                        <select id="yearFilter" class="bg-slate-100 border-slate-300 rounded-md text-sm p-1.5">
+                            <option value="2003">2003</option>
+                            <option value="2004">2004</option>
+                            <option value="2005">2005</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="productLineChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 bg-white p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-semibold mb-4">Jumlah Karyawan per Jabatan</h3>
+                     <div class="chart-container">
+                        <canvas id="employeesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        <p>Dasbor Interaktif dibuat berdasarkan Laporan Proyek 2 oleh Vemas Satria Edy Pratama (3123600020).</p>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const codeSnippets = {
+        compose: `
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: mysql_db
+      DB_USER: root
+      DB_PASSWORD: passwordanda
+      DB_NAME: classicmodels
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordanda
+      MYSQL_DATABASE: classicmodels
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/axon/Axon sales - Mysql Database.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppasswordanda"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  mysql_data:
+`,
+        frontend: `
+# Stage 1: Build React app
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Stage 2: Serve app with Nginx
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+`,
+        backend: `
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["node", "server.js"]
+`
+    };
+
+    document.getElementById('tab-compose').textContent = codeSnippets.compose.trim();
+    document.getElementById('tab-frontend').textContent = codeSnippets.frontend.trim();
+    document.getElementById('tab-backend').textContent = codeSnippets.backend.trim();
+
+    const tabs = document.querySelectorAll('.tab');
+    const codePanels = document.querySelectorAll('.code-panel');
+    tabs[0].classList.add('active');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const targetId = tab.dataset.target;
+            codePanels.forEach(panel => {
+                if (panel.id === targetId) {
+                    panel.classList.remove('section-hidden');
+                } else {
+                    panel.classList.add('section-hidden');
+                }
+            });
+        });
+    });
+
+    const diagramComponents = document.querySelectorAll('[data-target]');
+    const detailPanels = document.querySelectorAll('.detail-panel');
+    const detailPlaceholder = document.getElementById('detail-placeholder');
+
+    diagramComponents.forEach(component => {
+        component.addEventListener('click', () => {
+            const targetId = component.dataset.target;
+            detailPlaceholder.classList.add('section-hidden');
+
+            detailPanels.forEach(panel => {
+                if (panel.id === targetId) {
+                    panel.classList.remove('section-hidden');
+                    panel.style.opacity = 1;
+                    panel.style.transform = 'translateY(0)';
+                } else {
+                    panel.classList.add('section-hidden');
+                    panel.style.opacity = 0;
+                    panel.style.transform = 'translateY(10px)';
+                }
+            });
+
+            diagramComponents.forEach(c => {
+                c.classList.remove('border-indigo-500', 'bg-indigo-50', 'shadow-md');
+            });
+            component.classList.add('border-indigo-500', 'bg-indigo-50', 'shadow-md');
+        });
+    });
+
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth'
+            });
+            if (mobileMenu.contains(link)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    sections.forEach(section => observer.observe(section));
+
+
+    const ordersData = {
+        labels: ['2003', '2004', '2005'],
+        datasets: [{
+            label: 'Jumlah Pesanan',
+            data: [100, 131, 86],
+            fill: true,
+            borderColor: 'rgb(79, 70, 229)',
+            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+            tension: 0.3
+        }]
+    };
+    new Chart(document.getElementById('ordersChart'), { type: 'line', data: ordersData, options: { maintainAspectRatio: false, responsive: true } });
+
+    const employeesData = {
+        labels: ['Sales Rep', 'Sales Manager', 'VP Sales', 'President'],
+        datasets: [{
+            label: 'Jumlah Karyawan',
+            data: [17, 3, 1, 1],
+            backgroundColor: [
+                'rgba(165, 180, 252, 0.6)',
+                'rgba(129, 140, 248, 0.6)',
+                'rgba(99, 102, 241, 0.6)',
+                'rgba(79, 70, 229, 0.6)'
+            ],
+            borderColor: [
+                'rgb(165, 180, 252)',
+                'rgb(129, 140, 248)',
+                'rgb(99, 102, 241)',
+                'rgb(79, 70, 229)'
+            ],
+            borderWidth: 1
+        }]
+    };
+    new Chart(document.getElementById('employeesChart'), { type: 'bar', data: employeesData, options: { maintainAspectRatio: false, responsive: true, indexAxis: 'y' } });
+
+    const productLineData = {
+        '2003': {
+            labels: ['Classic Cars', 'Motorcycles', 'Planes', 'Ships', 'Trains', 'Trucks and Buses', 'Vintage Cars'],
+            data: [38, 13, 12, 9, 8, 11, 24]
+        },
+        '2004': {
+            labels: ['Classic Cars', 'Motorcycles', 'Planes', 'Ships', 'Trains', 'Trucks and Buses', 'Vintage Cars'],
+            data: [39, 13, 12, 7, 3, 11, 16]
+        },
+        '2005': {
+            labels: ['Classic Cars', 'Motorcycles', 'Planes', 'Ships', 'Trains', 'Trucks and Buses', 'Vintage Cars'],
+            data: [19, 7, 6, 7, 3, 7, 10]
+        }
+    };
+
+    let productLineChart;
+
+    function createProductLineChart(year) {
+        if (productLineChart) {
+            productLineChart.destroy();
+        }
+        const dataForYear = productLineData[year];
+        productLineChart = new Chart(document.getElementById('productLineChart'), {
+            type: 'doughnut',
+            data: {
+                labels: dataForYear.labels,
+                datasets: [{
+                    label: `Penjualan ${year}`,
+                    data: dataForYear.data,
+                    backgroundColor: [
+                        'rgba(99, 102, 241, 0.8)', 'rgba(129, 140, 248, 0.8)',
+                        'rgba(165, 180, 252, 0.8)', 'rgba(199, 210, 254, 0.8)',
+                        'rgba(224, 231, 255, 0.8)', 'rgba(238, 242, 255, 0.8)',
+                        'rgba(191, 219, 254, 0.8)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        });
+    }
+
+    createProductLineChart('2003');
+
+    document.getElementById('yearFilter').addEventListener('change', function() {
+        createProductLineChart(this.value);
+    });
+});
+</script>
+
+</body>
+</html>
