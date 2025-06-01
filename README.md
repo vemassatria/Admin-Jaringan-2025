@@ -14,6 +14,8 @@ Kumpulan tugas mata kuliah **WORKSHOP ADMIN JARINGAN** oleh:
 Dr. Ferry Astika Saputra ST, M.Sc
 
 ---
+
+<h1 > PROJECT 2(./Project2/index.html)</h1>
 <!-- 
 ## Daftar Tugas
 
